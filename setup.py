@@ -27,7 +27,7 @@ setup(
     long_description=readme,
     author='Project Mesa Team',
     author_email='projectmesa@googlegroups.com',
-    url='https://github.com/projectmesa/mesa',
+    url='https://github.com/marsplus/mesa',
     packages=find_packages(),
     package_data={'mesa': ['visualization/templates/*']},
     include_package_data=True,
