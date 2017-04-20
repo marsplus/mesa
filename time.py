@@ -121,7 +121,8 @@ class FollowVisibleActivation(BaseScheduler):
             move_order.extend(visibles)
             # then neighbors of visible ndoes move
             for node in visibles:
-                move_order.extend(node.neighbors)
+                tmp_neighbors = [agent for agent in node.neighbors if agent not in move_order]
+                move_order.extend(tmp_neighbors)
 
             # when current time is less than delayTime, only
             # visible nodes and their neighbors can move
