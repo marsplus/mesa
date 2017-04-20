@@ -107,6 +107,42 @@ class RandomActivation(BaseScheduler):
         self.time += 1
 
 
+
+## define a new schedule by Sixie Yu
+class FollowVisibleActivation(BaseScheduler):
+    # visible nodes and its neighbors move first 
+    # then other nodes don't move until delayTime
+    def step(self, delayTime):
+        move_order = []
+        if self.time < delayTime:
+            visibles = [agent for agent in self.agents if agent.isVisibleNode]
+            random.shuffle(visibles)
+            # visible nodes move first
+            move_order.extend(visibles)
+            # then neighbors of visible ndoes move
+            for node in visibles:
+                move_order.extend(node.neighbors)
+
+            # when current time is less than delayTime, only
+            # visible nodes and their neighbors can move
+            for order, agent in enumerate(move_order):
+                if self.model.terminate:
+                    break
+                agent.step(order)
+        else:
+            random.shuffle(self.agents)
+            for order, agent in enumerate(self.agents):
+                # added by Sixie Yu
+                if self.model.terminate:
+                    break
+                agent.step(order)
+
+        self.steps += 1
+        self.time += 1
+
+
+
+
 class SimultaneousActivation(BaseScheduler):
     """ A scheduler to simulate the simultaneous activation of all the agents.
 
