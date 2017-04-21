@@ -117,12 +117,11 @@ class FollowVisibleActivation(BaseScheduler):
         if self.time < delayTime:
             visibles = [agent for agent in self.agents if agent.isVisibleNode]
             random.shuffle(visibles)
-            # visible nodes move first
-            move_order.extend(visibles)
-            # then neighbors of visible ndoes move
             for node in visibles:
-                tmp_neighbors = [agent for agent in node.neighbors if agent not in move_order]
-                move_order.extend(tmp_neighbors)
+                move_order.append(node)
+                # tmp_neighbors = [agent for agent in node.neighbors if agent not in move_order]
+                # move_order.extend(tmp_neighbors)
+                move_order.extend(node.neighbors)
 
             # when current time is less than delayTime, only
             # visible nodes and their neighbors can move
